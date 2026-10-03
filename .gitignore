@@ -122,3 +122,16 @@ sql.tar.gz
 .idea
 CMakeSettings.json
 log.ini
+
+tools/simfleet/trader_metrics.csv
+
+# Python
+__pycache__/
+*.pyc
+mcps/
+
+
+# Windows deploy tooling: локальные артефакты развёртывания (deploy_windows.ps1 / build_and_run.ps1)
+/.winbuild/
+/deploy/
+/evedb.yaml

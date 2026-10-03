@@ -195,6 +195,15 @@ int main( int argc, char* argv[] )
 {
     double profileStartTime(GetTimeMSeconds());
 
+    // line-buffer stdout even when it is a pipe (container json logging):
+    // block buffering hid the final log lines whenever the main loop
+    // stalled, which made hangs self-concealing (HANG-1/SPAWN-10
+    // diagnosis pain)
+    // NOTE: size must be > 0 when the buffer is NULL — the hardened UCRT
+    // in recent Windows 11 builds fast-fails (0xC0000409) the process on
+    // setvbuf(s, NULL, _IOLBF, 0) before main's first output.
+    setvbuf(stdout, nullptr, _IOLBF, 1024);
+
     /* set current time for timer */
     Timer::SetCurrentTime();
 
