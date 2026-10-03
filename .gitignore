@@ -133,3 +133,8 @@ __pycache__/
 *.pyc
 mcps/
 
+
+# Windows deploy tooling: локальные артефакты развёртывания (deploy_windows.ps1 / build_and_run.ps1)
+/.winbuild/
+/deploy/
+/evedb.yaml

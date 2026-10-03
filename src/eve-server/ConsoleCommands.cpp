@@ -63,8 +63,11 @@ void ConsoleCommand::Initialize(CommandDispatcher* cd)
 
     m_inputThread = new std::thread([&] {
         std::string temp;
-        while (true) {
-            std::getline(std::cin, temp);
+        // The loop must end when stdin reaches EOF (server launched hidden
+        // with redirected/closed stdin by deploy tooling): a failing getline
+        // would otherwise push empty commands in a busy loop until the queue
+        // growth kills the process.
+        while (std::getline(std::cin, temp)) {
             std::lock_guard<std::mutex> lock(m_inputMutex);
             m_input.push_back(std::move(temp));
             m_inputCondition.notify_one();
